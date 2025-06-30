@@ -1,0 +1,55 @@
+<div class="home">
+    <div class="info">
+        <h1 class="heading">Welcome to CarbonTracer 🌿 </h1>
+        <div class="details">          
+    Take charge of your environmental impact.
+    With CarbonTrackr, you can monitor your daily activities — from travel and electricity use to food and shopping
+     — and see how they contribute to your carbon footprint in real time.
+        </div>
+        <div class="steps">
+            <h1 class="heading">How to use</h1>
+            <ul>
+                <li>To use u must login in to website</li>
+                <li>Fill the details in the form </li>
+                <li>Your carbon value will appear Below</li>
+                <li>To check Your details Go to Dashboard</li>
+                <li>Do rate us!!!</li>
+            </ul>
+        </div>
+    </div>
+        
+    <div class="input_forms">
+            <form action="/home" method="post" class="inputs">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <h1 class="heading">Enter Details!</h1>
+                <label>
+                    <p class="input_tittle">Enter Date YYYY-MM-DD</p>
+                    <input type="date" name="date">
+                </label>
+                <label>
+                    <p class="input_tittle">Distance Travled in km</p>
+                    <input type="number" name="travel" id="">
+                </label>
+                <label>
+                    <p class="input_tittle">Electricity in kwh</p>
+                    <input type="number" name="electricity" id="">
+                </label>
+                <label>
+                    <p class="input_tittle">Gas used per litre</p>
+                    <input type="number" name="gas_litre" id="">
+                </label>
+                <label>
+                    <p class="input_tittle">waste_kg</p>
+                    <input type="number" name="waste" id="">
+                </label>
+                <div class>
+                    <button type="submit" class="submit">check</button>
+                </div>
+                <div class="output">
+                    <% if (emmision) { %>
+                        <p>Your emmision is <%= emmision %></p>
+                        <% } %>
+                </div>
+            </form>
+        </div>
+</div>

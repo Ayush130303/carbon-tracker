@@ -1,0 +1,26 @@
+<h1 class="heading">Update Record</h1>
+
+<form action="/editpost/<%= data._id %>" method="POST" class="input_forms">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <label>
+    <p class="input_tittle">Date</p>
+    <input type="date" name="date" value="<%= new Date(data.date).toISOString().split('T')[0] %>" />
+  </label>
+  <label>
+    <p class="input_tittle">Distance Travelled</p>
+    <input type="number" name="travel" value="<%= data.travel %>" />
+  </label>
+  <label>
+    <p class="input_tittle">Electricity (kWh)</p>
+    <input type="number" name="electricity" value="<%= data.electricity %>" />
+  </label>
+  <label>
+    <p class="input_tittle">Gas (litres)</p>
+    <input type="number" name="gas_litre" value="<%= data.gas_litre %>" />
+  </label>
+  <label>
+    <p class="input_tittle">Waste (kg)</p>
+    <input type="number" name="waste" value="<%= data.waste %>" />
+  </label>
+  <button class="submit" type="submit">Update</button>
+</form>

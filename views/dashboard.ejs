@@ -1,0 +1,96 @@
+<table border="1">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Distance Traveled (km)</th>
+      <th>Electricity (kWh)</th>
+      <th>Gas (litre)</th>
+      <th>Waste (kg)</th>
+      <th>Emission (kg CO₂)</th>
+      <th>Actions</th> <!-- New Column -->
+    </tr>
+  </thead>
+  <tbody>
+    <% if (records && records.length > 0) { %>
+      <% records.forEach((rec) => { %>
+        <tr>
+          <td><%= new Date(rec.date).toLocaleDateString() %></td>
+          <td><%= rec.travel %></td>
+          <td><%= rec.electricity %></td>
+          <td><%= rec.gas_litre %></td>
+          <td><%= rec.waste %></td>
+          <td><%= rec.totalEmission.toFixed(2) %></td>
+          <td>
+            <button type="submit" class="action-btn update-btn"><a href="/editpost/<%= rec._id %>" style="color: aliceblue;">Update</a></button>
+            <form action="/delete/<%= rec._id %>" method="post" style="display:inline;">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button type="submit" class="action-btn delete-btn" onclick="return confirm('Are you sure you want to delete this record?');">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    <% } else { %>
+      <tr><td colspan="7">No records found.</td></tr>
+    <% } %>
+  </tbody>
+</table>
+
+<style>
+  #emissionChart {
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    margin: auto;
+    display: block;
+  }
+</style>
+
+<!-- 📊 Emission Chart -->
+<canvas id="emissionChart" width="300px" height="300px"></canvas>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- 📈 Chart Script -->
+<script>
+  const labels = <%- JSON.stringify(records.map(r => new Date(r.date).toLocaleDateString())) %>;
+  const emissions = <%- JSON.stringify(records.map(r => r.totalEmission.toFixed(2))) %>;
+
+  const ctx = document.getElementById("emissionChart").getContext("2d");
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Emission (kg CO₂)',
+        data: emissions,
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: true }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'kg CO₂'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Date'
+          }
+        }
+
+      }
+    }
+  });
+</script>
